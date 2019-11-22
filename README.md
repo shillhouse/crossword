@@ -3,7 +3,7 @@ The Crypto Crossword
 
 For all the broke survivors. Based on [@wiseley's javascript crossword](https://github.com/wiseley/javascript-crossword). [Play now.](https://crossword.goodshillhunting.com)
 
-You can also [download a print version](crypto-crossword.pdf) for playing when the power goes out.
+You can also [download a print version](crypto-crossword.pdf) for playing when the power goes out and all the chains stop working.
 
 ---
 
