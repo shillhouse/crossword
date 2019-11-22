@@ -1,4 +1,4 @@
-The Cryptocoin Crossword
+The Crypto Crossword
 ====================
 
 For all the broke survivors. Based on [@wiseley's javascript crossword](https://github.com/wiseley/javascript-crossword). [Play now.](https://crossword.goodshillhunting.com)
