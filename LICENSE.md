@@ -1,8 +1,8 @@
 The following license applies to all files included in this repository
-except `puzzle.js`, `crypto-crossword.pdf` and `cryptocoin-crossword.png`. 
-These 3 files, containing the original creative work *The Crypto Crossword* 
-by SHILLhouse, are released under the Creative Commons 
-Attribution-NonCommercial-ShareAlike 4.0 International license.
+except `index.html` and `puzzle.js`. These 2 files, containing the 
+original creative work *The Crypto Crossword* by SHILLhouse, are released 
+under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 
+International license.
 
 GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
