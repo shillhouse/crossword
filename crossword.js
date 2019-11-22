@@ -1,6 +1,6 @@
 /*
 A browser-based crossword puzzle implemented in JavaScript
-Copyright (C) 2014  Matt Wiseley 
+Copyright (C) 2014  Matt Wiseley
 
 https://github.com/wiseley/javascript-crossword
 
@@ -19,9 +19,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-function Crossw1rd(container_id) {
+function Crossw1rd(container_id, container2_id) {
 
   this.container; // container for the grid
+  this.container2; // container for footer
   this.width = 0; // how many cells wide
   this.height = 0; // how many cells high
   this.clues; // data used to populate puzzle
@@ -37,13 +38,14 @@ function Crossw1rd(container_id) {
   this.init = function(id) {
     var c = $("#"+container_id);
     c.empty();
-    this.id = id; 
+    this.id = id;
     this.container = $('<div class="crossw1rd"></div>').appendTo(c);
+    this.container2 = $("#"+container2_id);
     this.populateClues(function() {
 			self.initDimensions();
-			self.drawClues();
 			self.drawGrid();
-			self.drawControls();
+      self.drawClues();
+      self.drawControls();
 			self.adjustDimensions();
 			self.mapKeyBindings();
 			// check for & load saved state
@@ -60,7 +62,7 @@ function Crossw1rd(container_id) {
   this.populateClues = function(continueInit) {
   	var idre = new RegExp('[0-9a-zA-Z]+');
   	if (!idre.test(this.id)) alert('Invalid ID');
-		this.clues = $.ajax({
+    this.clues = $.ajax({
 		  type: 'GET',
 		  dataType: 'json',
 		  url:  this.id+'.js',
@@ -91,8 +93,8 @@ function Crossw1rd(container_id) {
     this.grid = $('<div class="grid"></div>').appendTo(this.container);
 
     // set height and width
-    this.grid.attr('style','height:'+(this.height*28)+'px; width:'+(this.width*28)+'px;');
-    
+    this.grid.attr('style','height:'+(this.height*31)+'px; width:'+(this.width*31)+'px;');
+
     // add rows and cols and store cells in this.cells
     this.cells = [];
     for (var r=0; r<this.height; r++) {
@@ -103,7 +105,7 @@ function Crossw1rd(container_id) {
         this.cells[r][c] = cell;
       }
     }
-    
+
     // populate letters
     for (var i=0; i<this.clues.length; i++) {
       //  { d:'A|D', n:1, x:3, y:2, a:'RAN', c:'Operated' },
@@ -128,14 +130,14 @@ function Crossw1rd(container_id) {
       }
     }
   }
-  
+
   // draw clues
   this.drawClues = function() {
     var cluediv = $('<div class="clues"></div>').appendTo(this.container);
     cluediv.append('<h4 class="cluelabel">Across</h4>');
-    var aol = $('<div class="across scroll-pane"></div>').appendTo(cluediv);
+    var aol = $('<div class="across"></div>').appendTo(cluediv);
     cluediv.append('<h4 class="cluelabel">Down</h4>');
-    var dol = $('<div class="down scroll-pane"></div>').appendTo(cluediv);
+    var dol = $('<div class="down"></div>').appendTo(cluediv);
     for (var i=0; i<this.clues.length; i++) {
       var clue = this.clues[i];
       var li;
@@ -166,23 +168,31 @@ function Crossw1rd(container_id) {
     li.addClass('active_clue');
     var paddingMarginOffset = 8;
     var top = li.position().top - li.parent().position().top - paddingMarginOffset;
-    self.container.find('.clues ' + 
+    self.container.find('.clues ' +
           (self.direction=='A'?'.across':'.down')
         ).scrollTop(top);
   }
 
   // draw controls
   this.drawControls = function() {
-    var div = $('<div class="controls"></div>').appendTo(this.container);
-    var reset = $('<button>Reset</button>').appendTo(div);;
-    reset.click(this.reset);
+    if($('#checkControl').length < 1) {
+      var check = $('<a id="checkControl" href="#">Check Answers</a>').appendTo(this.container2);
+      check.click(function() { self.checkPuzzle(); return false; });
+    }
+    if($('#resetControl').length < 1) {
+      var reset = $('<a id="resetControl" href="#">Reset</a>').appendTo(this.container2);
+      reset.click(this.reset);
+    }
   }
 
-  // set container dimensions based on grid size
+  // set outer container dimensions to center on screen
   this.adjustDimensions = function() {
+    var total = this.grid.outerWidth(true) + $('.clues').first().outerWidth(true) + 1;
+    this.container.width(total);
+    /*
     var clueW = 200;
     var padding = 20;
-    var h = this.grid.height(); 
+    var h = this.grid.height();
     var w = this.grid.width();
     var ctrlH = this.container.find('.controls').height();
     this.container.width(h+padding+clueW);
@@ -191,6 +201,7 @@ function Crossw1rd(container_id) {
     this.container.find('.clues').height(h);
     var labelh = $(".clues h4").height();
     $(".clues .across, .clues .down").height((h/2)-(labelh*2));
+    */
   }
 
   /*** NAVIGATION & ENTRY ***/
@@ -339,7 +350,7 @@ function Crossw1rd(container_id) {
       }
     });
 
-    // alphanumeric 
+    // alphanumeric
     for (var i=48; i<=90; i++) {
       //   numbers (48-57)         letters (65-90)
       if ((i >= 48 && i <= 57) || (i>=65 && i<= 90)) {
@@ -456,7 +467,7 @@ function Crossw1rd(container_id) {
       self.checkPuzzle();
     });
   }
-  
+
   /*** ANSWER CHECKING ***/
 
   // check the correctness of the active cell
@@ -467,13 +478,13 @@ function Crossw1rd(container_id) {
     if (cell.data('a')==entered) {
       cell.addClass('correct');
       cell.removeClass('incorrect');
-    } 
+    }
     else {
       cell.removeClass('correct');
       cell.addClass('incorrect');
     }
   }
-  
+
   // check the correctness of the current word
   this.checkWord = function() {
     var cell = this.grid.find('.active');
@@ -511,9 +522,9 @@ function Crossw1rd(container_id) {
     var delim = '|';
     var state = [delim]; // 1st char defines the row delimiter
     state.push(this.id); // then the puzzle id
-    state.push(delim); 
+    state.push(delim);
     state.push(0); // the number of additional settings stored in the state (for future use, e.g. timer value)
-    state.push(delim); 
+    state.push(delim);
     //state.push('name=val'); // use this format for additional settings
     for (var i=0; i<this.cells.length; i++) {
       var row = this.cells[i];
@@ -523,10 +534,10 @@ function Crossw1rd(container_id) {
           var letter = cell.find('.letter').text();
           if (letter.length==0) {
             state.push(' '); // space indicates empty cell
-          } 
+          }
           else if (letter.length>1) {
-            throw 'Multiple characters found in cell ['+i+']['+c+']';            
-          } 
+            throw 'Multiple characters found in cell ['+i+']['+c+']';
+          }
           else {
             state.push(letter);
           }
@@ -551,7 +562,7 @@ function Crossw1rd(container_id) {
       var setting = setting.split('=');
       settings[setting[0]] = setting[1];
     }
-    //this.init(id); // assume this has been done already 
+    //this.init(id); // assume this has been done already
     if (this.id!=id) return; // should not happen
     // set the answers stored in state
     for (var i=0; i<this.cells.length; i++) {
@@ -581,8 +592,10 @@ function Crossw1rd(container_id) {
   this.reset = function() {
     if (confirm('Reset: Are you sure?')) {
       $.removeCookie('crossw1rd.'+self.id);
+      $(document).unbind();
       self.init(self.id);
     }
+    return false;
   }
 
 }
@@ -590,7 +603,7 @@ function Crossw1rd(container_id) {
 /*** STATIC CLASS FUNCTIONS ***/
 
 // cross-browser keyCode of keypress event
-Crossw1rd.keyCode = function(e) { 
+Crossw1rd.keyCode = function(e) {
   return (e.keyCode ? e.keyCode : e.charCode);
 }
 

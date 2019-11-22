@@ -1,11 +1,77 @@
+body {
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  color:#333;
+  font-size:16px;
+  margin:0;
+  padding:0;
+  background:#333;
+  color:#fff;
+}
+
+a, a:visited {
+  color:#fff;
+}
+
+#masthead {
+  padding:9px 18px;
+  background:#00cef3;
+  background: -webkit-linear-gradient(#00cef3, #33ca93); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#00cef3, #33ca93); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#00cef3, #33ca93); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#00cef3, #33ca93); /* Standard syntax */
+  color:#333;
+  text-align:center;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 0.25em;
+}
+
+p {
+  margin-top: 0;
+}
+
+#container1 {
+  background: #fff;
+  color: #333;
+  padding: 18px;
+  overflow: hidden;
+}
+
+#container2 {
+  padding: 18px;
+  text-align: center;
+}
+
+#container2 a {
+  display: inline-block;
+  border: 1px solid #fff;
+  padding: 6px 8px;
+  margin: 0 8px;
+  box-shadow:2px 2px #ddf;
+  text-decoration: none;
+}
+
+#footer {
+  text-align: center;
+  line-height: 2.0;
+  padding-bottom: 8px;
+}
+
+#btc-protocol {
+  text-decoration: none;
+}
+
 .crossw1rd {
-  border: solid 1px #eee;
-  padding:10px;
+  margin: 0 auto;
 }
 
 .grid {
-  border-top: 1px solid #aaa;
-  border-left: 1px solid #aaa;
+  border-top: 1px solid #333;
+  border-left: 1px solid #333;
+  float: left;
+  margin-right:18px;
 }
 
 .row {
@@ -16,11 +82,12 @@
 .row > div {
   float: left;
   text-align: center;
-  height: 27px;
-  width: 27px;
-  border-bottom: 1px solid #aaa;
-  border-right: 1px solid #aaa;
+  height: 30px;
+  width: 30px;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
   background-color: #fff;
+  position:relative;
   -moz-user-select: none;
   -khtml-user-select: none;
   user-select: none;
@@ -34,19 +101,18 @@
 }
 
 .num {
-  font-family: arial;
-  font-size: 8px;
-  float:left;
-  position: relative;
-  left: 1px;
+  font-size: 10px;
+  float: left;
+  position: absolute;
+  left: 2px;
   top: 1px;
 }
 
 .letter {
-  font-family: courier;
+  font-family: "Monaco", "Consolas", monospace;
   font-size: 20px;
   position: relative;
-  top: 4px;
+  top: 3px;
   white-space: normal;
 }
 .correct .letter {
@@ -55,17 +121,16 @@
 .incorrect .letter {
   color: red;
 }
- 
+
 .row > div.blank {
-  background-color: #ccc;
+  background-color: #555;
 }
 
 .clues {
-  font-family: arial;
-  float: right;
+  font-family: "Monaco", "Consolas", monospace;
+  float: left;
 }
 .clues .across, .clues .down {
-  background-color: #eee;
   margin:4px;
 }
 .clues h4 {
@@ -75,13 +140,13 @@
 .clues div {
   margin: 4px 0;
   padding: 4px;
-  overflow: auto;
 }
 .clues p {
   font-size: 12px;
   margin: 0;
   cursor: default;
   position: relative;
+  line-height:1.4;
 }
 .active_clue {
   background-color: #FCFCD6;
@@ -89,6 +154,7 @@
 
 .controls {
   margin: 10px 0;
+  clear:left;
 }
 
 /* CSSButtonGenerator.com */
